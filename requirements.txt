@@ -1,0 +1,5 @@
+flask
+pandas
+scikit-learn # If you use scikit-learn for your model
+joblib  # For loading the model
+gunicorn
