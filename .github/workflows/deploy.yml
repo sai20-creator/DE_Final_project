@@ -57,8 +57,6 @@ jobs:
           echo "${{ secrets.DE_WEEK_7 }}" | base64 --decode > gcloud-key.json
           gcloud auth activate-service-account --key-file=gcloud-key.json
 
-
-
       - name: Deploy to Google Cloud App Engine
         run: |
           gcloud config set project de-week-7
