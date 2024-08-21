@@ -3,7 +3,7 @@ from google.cloud import bigquery
 
 app = Flask(__name__)
 
-# Initialize BigQuery client
+# BigQuery client
 client = bigquery.Client()
 project_id = 'de-week-7'
 dataset_id = 'mergeddata'
@@ -15,18 +15,16 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Retrieve user input
     pickup_area = request.form.get('pickup_area')
     dropoff_area = request.form.get('dropoff_area')
 
-    # Ensure inputs are integers
     try:
         pickup_area = int(pickup_area)
         dropoff_area = int(dropoff_area)
     except ValueError:
         return "Invalid input. Please enter valid integers."
 
-    # Prepare the query
+    #  Query
     query = """
     SELECT
       predicted_trip_seconds
@@ -50,7 +48,6 @@ def predict():
         ]
     )
 
-    # Run the query
     query_job = client.query(query, job_config=job_config)
     results = query_job.result()
 
