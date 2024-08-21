@@ -54,9 +54,9 @@ jobs:
 
       - name: Decode and set up credentials
         run: |
-          echo "${{ secrets.DE_WEEK_7 }}" | 
-          # base64 --decode > de-week-7-6b2c6e114668.json
-          gcloud auth activate-service-account --key-file=de-week-7-6b2c6e114668.json
+          echo "${{ secrets.DE_WEEK_7 }}" | base64 --decode > gcloud-key.json
+          gcloud auth activate-service-account --key-file=gcloud-key.json
+
 
 
       - name: Deploy to Google Cloud App Engine
