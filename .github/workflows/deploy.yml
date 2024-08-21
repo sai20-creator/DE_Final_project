@@ -1,0 +1,49 @@
+name: Deploy to Google Cloud
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Set Python version if needed
+
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker.io
+
+      - name: Build Docker image
+        run: |
+          docker build -t trip-time-prediction .
+
+      - name: Run Docker container
+        run: |
+          docker run -d -p 5000:5000 trip-time-prediction
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: 'latest'
+          project_id: 'de-week-7'
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.DE_WEEK_7 }}
+
+      - name: Decode and set up credentials
+        run: |
+          echo "${{ secrets.DE_WEEK_7 }}" | base64 --decode > gcloud-key.json
+          gcloud auth activate-service-account --key-file=gcloud-key.json
+
+      - name: Deploy to Google Cloud App Engine
+        run: |
+          gcloud config set project de-week-7
+          gcloud app deploy --quiet
