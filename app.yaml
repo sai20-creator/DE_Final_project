@@ -1,0 +1,8 @@
+runtime: python310
+
+entrypoint: gunicorn -b :$PORT app:app
+
+# Optional: App Engine environment variables
+env_variables:
+  GOOGLE_CLOUD_PROJECT: 'de-week-7'
+
