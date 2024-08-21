@@ -38,6 +38,11 @@ jobs:
       - name: Run Docker container
         run: |
           docker run -d -p 5000:5000 trip-time-prediction
+          
+      - name: Authenticate Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.DE_WEEK_7 }}
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
